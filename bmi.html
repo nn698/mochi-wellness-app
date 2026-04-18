@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mochi | BMI Calculator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Quicksand', sans-serif; background-color: #FFF5F7; }
+        .mochi-card { background: white; border-radius: 28px; box-shadow: 0 10px 25px rgba(255, 182, 193, 0.2); }
+        .input-style { background: #FFF0F3; border: none; border-radius: 15px; padding: 12px; width: 100%; outline-color: #FFB6C1; }
+    </style>
+</head>
+<body class="p-6 min-h-screen flex flex-col items-center">
+
+    <div class="max-w-md w-full">
+        <a href="/" class="text-pink-400 font-bold mb-6 inline-block">← Back to Home</a>
+
+        <div class="mochi-card p-8">
+            <div class="text-center mb-6">
+                <span class="text-5xl">⚖️</span>
+                <h1 class="text-2xl font-bold text-pink-600 mt-2">BMI Calculator</h1>
+            </div>
+
+            <form method="POST" class="space-y-4">
+                <div>
+                    <label class="text-sm text-pink-400 font-bold ml-1">Weight (kg)</label>
+                    <input type="number" step="any" name="weight" placeholder="e.g. 60" class="input-style" required>
+                </div>
+                <div>
+                    <label class="text-sm text-pink-400 font-bold ml-1">Height (cm)</label>
+                    <input type="number" step="any" name="height" placeholder="e.g. 165" class="input-style" required>
+                </div>
+                <button type="submit" class="w-full bg-pink-400 hover:bg-pink-500 text-white font-bold py-3 rounded-2xl transition shadow-lg mt-4">
+                    Calculate with Mochi
+                </button>
+            </form>
+
+            {% if result %}
+            <div class="mt-8 pt-8 border-t border-pink-50 text-center">
+                <p class="text-gray-400 text-sm uppercase font-bold">Your BMI is</p>
+                <h2 class="text-5xl font-black text-pink-500 my-2">{{ result }}</h2>
+                
+                <div class="bg-pink-50 p-4 rounded-2xl mt-4">
+                    <p class="text-pink-600 font-medium italic">
+                        {% if result < 18.5 %}
+                           "Mochi says: Time for some extra treats! (つ≧▽≦)つ"
+                        {% elif result < 25 %}
+                           "Mochi says: You're perfectly balanced! ଘ(੭ˊᵕˋ)੭"
+                        {% else %}
+                           "Mochi says: Let's keep moving together! (๑•̀ㅂ•́)و"
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

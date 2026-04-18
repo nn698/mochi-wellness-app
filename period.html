@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mochi | Period Tracker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Quicksand', sans-serif; background-color: #FFF5F7; }
+        .mochi-card { background: white; border-radius: 28px; box-shadow: 0 10px 25px rgba(255, 182, 193, 0.2); }
+        .input-style { background: #FFF0F3; border: none; border-radius: 15px; padding: 12px; width: 100%; }
+    </style>
+</head>
+<body class="p-6">
+    <div class="max-w-2xl mx-auto">
+        <a href="/" class="text-pink-400 font-bold mb-6 inline-block">← Back to Home</a>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="mochi-card p-6">
+                <h2 class="text-xl font-bold text-pink-600 mb-4">Log Period 📅</h2>
+                <form action="/log_period" method="POST" class="space-y-3">
+                    <input type="text" name="user_name" placeholder="Your Name" class="input-style" required>
+                    <input type="date" name="last_period_date" class="input-style" required>
+                    <input type="number" name="cycle_length" placeholder="Avg Cycle Length (days)" class="input-style" required>
+                    <button type="submit" class="w-full bg-pink-300 text-white font-bold py-3 rounded-xl">Save Log</button>
+                </form>
+            </div>
+
+            <div class="mochi-card p-6 flex flex-col items-center justify-center text-center">
+                {% if prediction and prediction.error == 'need_more_data' %}
+                    <span class="text-4xl mb-2">🍡</span>
+                    <p class="text-pink-400 font-bold">Mochi is thinking...</p>
+                    <p class="text-xs text-gray-400">Log at least 2 periods so I can predict your next one!</p>
+                {% elif prediction and prediction.date %}
+                    <p class="text-xs font-bold text-pink-300 uppercase">Next Period Predicted</p>
+                    <h2 class="text-3xl font-black text-pink-500">{{ prediction.date }}</h2>
+                    <p class="text-[10px] text-gray-400 mt-2">Ovulation: {{ prediction.ovulation }}</p>
+                {% else %}
+                    <span class="text-4xl opacity-30">✨</span>
+                    <p class="text-gray-300 italic">Log data to see predictions</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="mochi-card p-6 mt-6">
+            <h3 class="text-pink-600 font-bold mb-4">Cycle History 🌸</h3>
+            <table class="w-full text-left text-sm">
+                <tr class="text-pink-300 border-b border-pink-50">
+                    <th class="pb-2">Date</th>
+                    <th class="pb-2">Cycle</th>
+                </tr>
+                {% for entry in history %}
+                <tr class="border-b border-pink-50 last:border-0">
+                    <td class="py-3 text-gray-600">{{ entry[2] }}</td>
+                    <td class="py-3 text-gray-600">{{ entry[3] }} days</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</body>
+</html>
